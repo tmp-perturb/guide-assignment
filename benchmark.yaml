@@ -181,17 +181,13 @@ stages:
     outputs:
       - { id: metrics_discovery.scores, path: "{params.metric}.scores.json" }
 
-  # ---- difficulty_validation (Phase 2 delta-KD) — NOT wired as a stage. ----
-  # It is method-independent (single computation per dataset using umi_t3 as a
-  # fixed reference), which needs `requires:` + a 3-way branch join
-  # (difficulty_table + assignments + gex). OB 0.6.0's DAG builder is
-  # nondeterministic for that shape (collapses the whole plan's fan-out ~half the
-  # runs), so it is intentionally excluded here to keep the plan deterministic.
-  # The logic is implemented + vendored verbatim in the difficulty module
-  # (`--phase validate`); run it standalone until the OB join issue is resolved.
-  # See CONSISTENCY_VALIDATION.md and OMNIBENCHMARK_CONVERSION_PLAN.md.
-
 # ---- cross-lineage aggregators (all verified 0-mismatch vs archive) ----
+# NB `parameters[].id: collector_param` below is a required placeholder with no
+# semantics: OB auto-generates parameter ids for stages[].modules[].parameters but
+# NOT for metric_collectors[].parameters, while Parameter.id is mandatory. The value
+# is never passed to the entrypoint (only `--collector <name>` is) and is safe to
+# repeat across collectors — the param hash is computed from the params, not the id.
+# Collector outputs land in out/<param_hash>/<file>, not at the bare `path:` below.
 metric_collectors:
   - id: jaccard
     name: "guide-assignment Jaccard across all lineages"
@@ -200,6 +196,9 @@ metric_collectors:
       url: git@github.com:yunzhe-liu/guide-assignment-metrics.git
       commit: 0f2fca97df34173e1af2b777739508283b665411
       entrypoint: collectors
+    parameters:
+      - id: collector_param
+        collector: "jaccard"
     inputs:
       - guide_assignment.assignments
     outputs:
@@ -211,6 +210,9 @@ metric_collectors:
       url: git@github.com:yunzhe-liu/guide-assignment-metrics.git
       commit: 0f2fca97df34173e1af2b777739508283b665411
       entrypoint: collectors
+    parameters:
+      - id: collector_param
+        collector: "strat_jaccard"
     inputs:
       - guide_assignment.assignments
       - data.difficulty_table
@@ -223,6 +225,9 @@ metric_collectors:
       url: git@github.com:yunzhe-liu/guide-assignment-metrics.git
       commit: 0f2fca97df34173e1af2b777739508283b665411
       entrypoint: collectors
+    parameters:
+      - id: collector_param
+        collector: "extraction_shift"
     inputs:
       - data.difficulty_table
     outputs:
@@ -234,6 +239,9 @@ metric_collectors:
       url: git@github.com:yunzhe-liu/guide-assignment-metrics.git
       commit: 0f2fca97df34173e1af2b777739508283b665411
       entrypoint: collectors
+    parameters:
+      - id: collector_param
+        collector: "mismatch"
     inputs:
       - guide_assignment.assignments
       - data.gex
@@ -241,24 +249,6 @@ metric_collectors:
       - data.guide_map
     outputs:
       - { id: mismatch.json, path: "mismatch.json" }
-
-# ============================================================================
-# DESIGN BLOCKS BELOW (scaffolded modules exist; per-lineage refactor = Cut 2-4)
-# ============================================================================
-# difficulty stage (Phase 0 table, method-independent):
-#   - id: difficulty
-#     modules: [{ id: difficulty_table, software_environment: assignment_py,
-#                 repository: {url: .../guide_assignment_difficulty, commit: aa17f1a},
-#                 parameters: [{ phase: table }] }]
-#     inputs: [data.matrix, data.barcodes, data.features]
-#     outputs: [{ id: difficulty.table, path: "{dataset}_cell_difficulty.tsv" }]
-#
-# difficulty_validation stage (Phase 2; fixed umi_t3 ref via requires:).
-#
-# metric_collectors (cross-lineage; commit 801dc91):
-#   - jaccard            inputs: [guide_assignment.assignments]
-#   - strat_jaccard      inputs: [guide_assignment.assignments, difficulty.table]   # Phase 1B
-#   - extraction_shift   inputs: [difficulty.table]                                 # Phase 1E
   - id: aggregate
     name: "Aggregate all metric layers into one tidy table (metrics.tsv/.parquet)"
     software_environment: assignment_metrics

@@ -27,9 +27,8 @@ omnibenchmark_modules/
   guide_assignment_umi         umi threshold 3 | 5 | 10 (run_umi_threshold.py)
   guide_assignment_crispat     crispat pgmm | 2beta (mex_to_h5ad + run_crispat_*.py)
   guide_assignment_fishash     fishash (R; run_fishash.R via Rscript)
-  guide_assignment_metrics     per-lineage scorer: tier1/construct_set/kd/discovery/mismatch/strat_* + Phase-0/2 vendored
-  guide_assignment_difficulty  Phase-0 table builder; Phase-2 delta-KD (--phase validate)
-  guide_assignment_collectors  jaccard / strat_jaccard (1b) / extraction_shift (1e) / mismatch (Phase-3, union-NT)
+  guide_assignment_metrics     per-lineage scorer: tier1/construct_set/kd/discovery/mismatch/strat_*
+                               + the difficulty (Phase-0) and collectors entrypoints
 ```
 
 ## 2. Architecture (as-built)
@@ -73,7 +72,8 @@ Everything runnable was checked against the original outputs (Replogle/HAM unles
 | **strat_tier1 / strat_mismatch_loc / capacity** | 0 mismatches |
 | **jaccard / strat_jaccard / extraction_shift** | 0 mismatches |
 | **mismatch** (union-NT collector, all 5 methods) | 0 mismatches |
-| discovery, Phase-2 delta-KD | vendored verbatim; dry-run clean (GEX-heavy, not run here) |
+| discovery | vendored verbatim; dry-run clean (GEX-heavy, not run here) |
+| `strat_delta_kd` (Phase-2 stratum KD) | no archive counterpart — metric postdates the archive |
 
 Full numbers in `CONSISTENCY_VALIDATION.md`.
 
@@ -89,10 +89,10 @@ plus 4 cross-lineage collectors.
 - **crispat parity is not guaranteed byte-exact.** crispat uses Pyro SVI (stochastic);
   even with a pinned seed, md5 can drift across a conda-env rebuild. Use the tolerance
   gate (≥99.5% top-1, ties only), not exact md5. Not run here.
-- **`difficulty_validation` (Phase-2) is not wired as a stage.** It's method-independent
-  and needs `requires:` + a 3-way branch join, which triggers OB's fan-out
-  nondeterminism. The logic is implemented + vendored in the difficulty module
-  (`--phase validate`); run standalone until the OB join issue is resolved.
+- **Phase-2 is the per-lineage `strat_delta_kd` metric** (stratum-binned KD), wired into
+  the `metrics_gex` stage. It supersedes the older method-independent delta-KD, which
+  would have needed `requires:` + a 3-way branch join — a shape that triggers OB's
+  fan-out nondeterminism. Being per-lineage, it needs no such join.
 - **No full end-to-end `ob run` (conda) yet.** Verified per-component (host backend +
   standalone) + full-plan dry-run. Building the 4 conda envs and running the whole DAG
   is the detailed-test step.

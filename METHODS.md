@@ -44,6 +44,6 @@ dataset-agnostic.
 
 ## Cross-lineage aggregation (collectors)
 
-`guide_assignment_collectors` (Cut 4): `jaccard` (all lineages; per-cell
+The `collectors` entrypoint of `guide_assignment_metrics`: `jaccard` (all lineages; per-cell
 aggregation — the fixed 2026-08-05 behaviour), `strat_jaccard` (Phase 1B),
 `extraction_shift` (Phase 1E, joins the two extractions' difficulty tables).
