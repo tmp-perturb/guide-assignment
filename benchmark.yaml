@@ -29,12 +29,13 @@ stages:
         software_environment: assignment_py
         repository:
           url: https://github.com/yunzhe-liu/guide-assignment-data.git
-          commit: 2f2d47a4fd0d84c069dad138eb7e1835c5ab2096
+          commit: 94d395085aed858d98386bcb39d1f16dad5dbeb7
         parameters:
           - mex_dir: "/data/yunzliu/results/guide_extraction/hash_matcher_final/merged/"
             gt: "/data/yunzliu/references/published/K562_essential_raw_singlecell_01.h5ad"
             gex: "/data/yunzliu/Replogle2022_K562_Day6_benchmark/02_gex/post_decontx/TruSeq_decontx_merged_48lanes.h5ad"
             guide_map: "/data/yunzliu/references/raw_guides_k562_essential.csv"
+            gene_symbol_to_ensg: "/data/yunzliu/assignment_benchmark_starter/benchmark_output/gene_symbol_to_ensg.json"
             guide_design: "dual"
             match_regime: "lane_16mer"
             collapse_lanes: "false"
@@ -43,12 +44,13 @@ stages:
         software_environment: assignment_py
         repository:
           url: https://github.com/yunzhe-liu/guide-assignment-data.git
-          commit: 2f2d47a4fd0d84c069dad138eb7e1835c5ab2096
+          commit: 94d395085aed858d98386bcb39d1f16dad5dbeb7
         parameters:
           - mex_dir: "/data/yunzliu/assignment_benchmark_starter/04_extraction_mex/simpleaf_k15/"
             gt: "/data/yunzliu/references/published/K562_essential_raw_singlecell_01.h5ad"
             gex: "/data/yunzliu/Replogle2022_K562_Day6_benchmark/02_gex/post_decontx/TruSeq_decontx_merged_48lanes.h5ad"
             guide_map: "/data/yunzliu/references/raw_guides_k562_essential.csv"
+            gene_symbol_to_ensg: "/data/yunzliu/assignment_benchmark_starter/benchmark_output/gene_symbol_to_ensg.json"
             guide_design: "dual"
             match_regime: "lane_16mer"
             collapse_lanes: "false"
@@ -65,6 +67,7 @@ stages:
       - { id: data.gt_labels, path: "{dataset}_gt.h5ad" }
       - { id: data.gex,       path: "{dataset}_gex.h5ad" }
       - { id: data.guide_map, path: "{dataset}_guide_map.csv" }
+      - { id: data.gene_symbol_to_ensg, path: "{dataset}_gene_symbol_to_ensg.json" }
       - { id: data.spec,      path: "{dataset}_spec.json" }
       - { id: data.difficulty_table, path: "{dataset}_cell_difficulty.tsv" }
 
@@ -129,7 +132,7 @@ stages:
         software_environment: assignment_py
         repository:
           url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-          commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["tier1", "construct_set", "strat_tier1", "strat_mismatch_loc", "capacity"]
     inputs:
@@ -148,7 +151,7 @@ stages:
         software_environment: assignment_metrics
         repository:
           url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-          commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["kd", "strat_delta_kd"]
     inputs:
@@ -168,7 +171,7 @@ stages:
         software_environment: assignment_metrics
         repository:
           url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-          commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["discovery"]
         resources: { mem_mb: 180000, cpu: 8 }
@@ -194,7 +197,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-      commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -208,7 +211,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-      commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -223,7 +226,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-      commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -237,7 +240,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-      commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -247,6 +250,7 @@ metric_collectors:
       - data.gex
       - data.gt_labels
       - data.guide_map
+      - data.gene_symbol_to_ensg
     outputs:
       - { id: mismatch.json, path: "mismatch.json" }
   - id: aggregate
@@ -254,7 +258,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
-      commit: 7a272712e5469a2facd3ed989f3b63f15269734d
+      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: aggregate
     inputs:
       - metrics_gt.scores
