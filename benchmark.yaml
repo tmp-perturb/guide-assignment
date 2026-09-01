@@ -28,7 +28,7 @@ stages:
         name: "Replogle K562 / HAM"
         software_environment: assignment_py
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-data.git
+          url: https://github.com/tmp-perturb/guide-assignment-data.git
           commit: 94d395085aed858d98386bcb39d1f16dad5dbeb7
         parameters:
           - mex_dir: "/data/yunzliu/results/guide_extraction/hash_matcher_final/merged/"
@@ -43,7 +43,7 @@ stages:
         name: "Replogle K562 / simpleaf_k15"
         software_environment: assignment_py
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-data.git
+          url: https://github.com/tmp-perturb/guide-assignment-data.git
           commit: 94d395085aed858d98386bcb39d1f16dad5dbeb7
         parameters:
           - mex_dir: "/data/yunzliu/assignment_benchmark_starter/04_extraction_mex/simpleaf_k15/"
@@ -80,7 +80,7 @@ stages:
         name: "PGMM EM (mle / map_e2)"
         software_environment: assignment_py
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-pgmm.git
+          url: https://github.com/tmp-perturb/guide-assignment-pgmm.git
           commit: 56f6b0a0eb485caccca3d0b23f2c4a047e52ddb4
         parameters:
           - variant: ["mle", "map_e2"]
@@ -90,7 +90,7 @@ stages:
         name: "UMI threshold (t3/t5/t10)"
         software_environment: assignment_py
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-umi.git
+          url: https://github.com/tmp-perturb/guide-assignment-umi.git
           commit: c75793d3d448dbe4149b58bd502fba66cb311757
         parameters:
           - threshold: [3, 5, 10]
@@ -98,7 +98,7 @@ stages:
         name: "crispat (pgmm / 2beta)"
         software_environment: assignment_crispat
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-crispat.git
+          url: https://github.com/tmp-perturb/guide-assignment-crispat.git
           commit: ca52e49e59d894b0aa3113bc99f8238aaba29def
         parameters:
           - crispat_method: ["pgmm", "2beta"]
@@ -107,7 +107,7 @@ stages:
         name: "fishash (R)"
         software_environment: assignment_fishash
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-fishash.git
+          url: https://github.com/tmp-perturb/guide-assignment-fishash.git
           commit: cc0323d2f53e3b9a24be1f896dc1da2b22e26843
         parameters:
           - padj_cutoff: 0.05
@@ -131,7 +131,7 @@ stages:
         name: "GT + stratified metrics (no GEX)"
         software_environment: assignment_py
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+          url: https://github.com/tmp-perturb/guide-assignment-metrics.git
           commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["tier1", "construct_set", "strat_tier1", "strat_mismatch_loc", "capacity"]
@@ -150,7 +150,7 @@ stages:
         name: "GEX metrics: KD (+NT-NT +pair) + stratum delta-KD"
         software_environment: assignment_metrics
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+          url: https://github.com/tmp-perturb/guide-assignment-metrics.git
           commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["kd", "strat_delta_kd"]
@@ -170,7 +170,7 @@ stages:
         name: "Discovery + FPR (HVG 5000; big resources)"
         software_environment: assignment_metrics
         repository:
-          url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+          url: https://github.com/tmp-perturb/guide-assignment-metrics.git
           commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
         parameters:
           - metric: ["discovery"]
@@ -196,7 +196,7 @@ metric_collectors:
     name: "guide-assignment Jaccard across all lineages"
     software_environment: assignment_metrics
     repository:
-      url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+      url: https://github.com/tmp-perturb/guide-assignment-metrics.git
       commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
@@ -210,7 +210,7 @@ metric_collectors:
     name: "Phase 1b: per-stratum pairwise Jaccard"
     software_environment: assignment_metrics
     repository:
-      url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+      url: https://github.com/tmp-perturb/guide-assignment-metrics.git
       commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
@@ -225,7 +225,7 @@ metric_collectors:
     name: "Phase 1e: extraction shift (joins the two tools' difficulty tables)"
     software_environment: assignment_metrics
     repository:
-      url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+      url: https://github.com/tmp-perturb/guide-assignment-metrics.git
       commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
@@ -239,7 +239,7 @@ metric_collectors:
     name: "Phase 3: mismatch arbitration (union-NT across the 5 canonical methods)"
     software_environment: assignment_metrics
     repository:
-      url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+      url: https://github.com/tmp-perturb/guide-assignment-metrics.git
       commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: collectors
     parameters:
@@ -257,7 +257,7 @@ metric_collectors:
     name: "Aggregate all metric layers into one tidy table (metrics.tsv/.parquet)"
     software_environment: assignment_metrics
     repository:
-      url: https://github.com/yunzhe-liu/guide-assignment-metrics.git
+      url: https://github.com/tmp-perturb/guide-assignment-metrics.git
       commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
       entrypoint: aggregate
     inputs:
