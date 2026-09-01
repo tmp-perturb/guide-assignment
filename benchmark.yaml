@@ -108,7 +108,7 @@ stages:
         software_environment: assignment_fishash
         repository:
           url: https://github.com/tmp-perturb/guide-assignment-fishash.git
-          commit: cc0323d2f53e3b9a24be1f896dc1da2b22e26843
+          commit: 02a8cb1c436718a9416ab33f1040053da91c9fd1
         parameters:
           - padj_cutoff: 0.05
             min_count: 2
@@ -132,7 +132,7 @@ stages:
         software_environment: assignment_py
         repository:
           url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+          commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
         parameters:
           - metric: ["tier1", "construct_set", "strat_tier1", "strat_mismatch_loc", "capacity"]
     inputs:
@@ -151,7 +151,7 @@ stages:
         software_environment: assignment_metrics
         repository:
           url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+          commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
         parameters:
           - metric: ["kd", "strat_delta_kd"]
     inputs:
@@ -171,7 +171,7 @@ stages:
         software_environment: assignment_metrics
         repository:
           url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-          commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+          commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
         parameters:
           - metric: ["discovery"]
         resources: { mem_mb: 180000, cpu: 8 }
@@ -197,7 +197,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+      commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -211,7 +211,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+      commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -226,7 +226,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+      commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -240,7 +240,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+      commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
       entrypoint: collectors
     parameters:
       - id: collector_param
@@ -258,7 +258,7 @@ metric_collectors:
     software_environment: assignment_metrics
     repository:
       url: https://github.com/tmp-perturb/guide-assignment-metrics.git
-      commit: 207f47906166cb8fa6d0ec5c31d3da79c8abf314
+      commit: e5131d6c85f832e400fdb6f98d630dc26ce8956e
       entrypoint: aggregate
     inputs:
       - metrics_gt.scores
