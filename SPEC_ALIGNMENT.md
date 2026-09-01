@@ -63,7 +63,7 @@ crispat, both use Replogle K562.
 | Methods | crispat(pgmm) + kaichi(7 models) | pgmm_em, umi t3/5/10, crispat pgmm/2beta, fishash |
 | Metrics | small, mostly GT-free: coverage/umi/pert-coverage/rna-KD | tiered: **GT Tier-1 accuracy** + Tier-2 (KD/discovery/FPR/construct-set) + Tier-3 mismatch + **difficulty (7 phases)** + jaccard |
 | Metric output | tidy parquet/tsv (dashboard-ready) | per-metric JSON |
-| Scale | minimal (3 stages, 2 method modules) | 8 methods, difficulty, collectors, 135-rule deterministic DAG |
+| Scale | minimal (3 stages, 2 method modules) | 8 methods, difficulty, collectors, 151-rule deterministic DAG |
 
 ---
 

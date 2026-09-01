@@ -14,13 +14,13 @@ data ─► guide_assignment (8 methods) ─► metrics_gt / metrics_gex / metri
 
 | Repo | Role |
 |---|---|
-| [guide-assignment](https://github.com/yunzhe-liu/guide-assignment) | benchmark plan + docs |
-| [guide-assignment-data](https://github.com/yunzhe-liu/guide-assignment-data) | data importer + difficulty table |
-| [guide-assignment-pgmm](https://github.com/yunzhe-liu/guide-assignment-pgmm) | PGMM-EM |
-| [guide-assignment-umi](https://github.com/yunzhe-liu/guide-assignment-umi) | UMI threshold |
-| [guide-assignment-crispat](https://github.com/yunzhe-liu/guide-assignment-crispat) | crispat |
-| [guide-assignment-fishash](https://github.com/yunzhe-liu/guide-assignment-fishash) | fishash (R) |
-| [guide-assignment-metrics](https://github.com/yunzhe-liu/guide-assignment-metrics) | metrics + difficulty + collectors |
+| [guide-assignment](https://github.com/tmp-perturb/guide-assignment) | benchmark plan + docs |
+| [guide-assignment-data](https://github.com/tmp-perturb/guide-assignment-data) | data importer + difficulty table |
+| [guide-assignment-pgmm](https://github.com/tmp-perturb/guide-assignment-pgmm) | PGMM-EM |
+| [guide-assignment-umi](https://github.com/tmp-perturb/guide-assignment-umi) | UMI threshold |
+| [guide-assignment-crispat](https://github.com/tmp-perturb/guide-assignment-crispat) | crispat |
+| [guide-assignment-fishash](https://github.com/tmp-perturb/guide-assignment-fishash) | fishash (R) |
+| [guide-assignment-metrics](https://github.com/tmp-perturb/guide-assignment-metrics) | metrics + difficulty + collectors |
 
 ## Run
 
