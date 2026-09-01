@@ -8,9 +8,10 @@ md5-identical) and wrapped behind the module CLI; only orchestration is replaced
 
 ---
 
-## Cut 1 — Replogle / HAM — VERIFIED ✅ (2026-08-13)
+## Historical cut 1 — Replogle / HAM — VERIFIED ✅ (2026-08-13)
 
-Ran `benchmark_cut1.yaml` (host backend, `scp_analysis` env):
+The original validation used a temporary `benchmark_cut1.yaml` (not included in
+the public plan) with the host backend and `scp_analysis` env:
 `data.replogle_ham → {pgmm(mle), umi(t3)} → metrics(tier1)`.
 
 ### Assignment parity — byte-identical md5 (base columns)
@@ -42,8 +43,7 @@ downstream metrics, as designed. The `pgmm_em` seed (`RandomState(42+init)`) and
 
 ```bash
 cd /home/yunzliu/omnibenchmark_benchmarks/guide_assignment
-conda run -n omnibenchmark ob run benchmark_cut1.yaml --dry --dirty   # generate Snakefile + cache modules
-cd out && conda run -n scp_analysis snakemake --cores 8               # host backend -> scp_analysis python
+conda run -n omnibenchmark ob run benchmark.yaml --dry                # inspect the public plan
 # then md5sum the produced assignments.csv vs the DATA_INDEX pins
 ```
 
@@ -94,7 +94,7 @@ Tier-1. (Verify end-to-end once the Papalexi lineage is wired: fresh pgmm → 0.
 ## Full plan — validated + deterministic ✅ (2026-08-13)
 
 `benchmark.yaml` (conda backend) — `ob validate plan` passes; `ob run --dry`
-generates **135 rules deterministically** (10 modules; 2 data × 8 methods = 16
+generates **151 rules deterministically** (2 data × 8 methods = 16
 assignment lineages × 3 metric stages [7 metric values] + 4 collectors). See the
 DAG-stability section below.
 
@@ -119,7 +119,7 @@ consume it and match the archive exactly (rows above).
 
 ## DAG stability (2026-08-13)
 
-`ob run --dry` generates **135 rules deterministically** — identical output at
+`ob run --dry` generates **151 rules deterministically** — identical output at
 `PYTHONHASHSEED` 0/1/2 and across repeated runs.
 
 Two OB 0.6.0 DAG-builder nondeterminism traps were found and worked around:

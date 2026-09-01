@@ -1,12 +1,12 @@
 # Guide Assignment — Omnibenchmark Conversion: Final Report
 
-**Status: COMPLETE & STABLE (2026-08-13).** The Perturb-seq guide-assignment
+**Status: STRUCTURE COMPLETE; PUBLIC EXECUTION PENDING (2026-09-01).** The Perturb-seq guide-assignment
 pipeline (`assignment_benchmark_starter/03_scripts/*`) is fully converted to
 Omnibenchmark. All method/metric logic is vendored verbatim and **parity-verified
 byte/field-identical to the original archive**; the plan generates a **deterministic
-DAG** (135 rules, identical across `PYTHONHASHSEED` and repeated runs). Ready to
-push to GitHub. A detailed end-to-end run from a fresh Git clone is the agreed next
-step (not done here).
+DAG** (151 rules under the current plan, deterministic across repeated dry-runs).
+All referenced repositories are now public and pinned. A detailed end-to-end run
+from a fresh Git clone remains pending.
 
 Companion docs in this repo: `README.md` (how to run), `METHODS.md` (methods +
 metric idiom), `CONSISTENCY_VALIDATION.md` (the full parity ledger).
@@ -15,12 +15,12 @@ metric idiom), `CONSISTENCY_VALIDATION.md` (the full parity ledger).
 
 ## 1. What was built
 
-**1 benchmark repo + 8 module repos**, each Git-tracked, all `03_scripts` logic
+**1 benchmark repo + 6 module repos**, each Git-tracked, all `03_scripts` logic
 vendored verbatim (`cp`) behind a thin Omnibenchmark CLI wrapper — re-orchestration
 only, no science rewritten.
 
 ```
-omnibenchmark_benchmarks/guide_assignment/          benchmark.yaml (+ benchmark_cut1.yaml) + docs
+omnibenchmark_benchmarks/guide_assignment/          benchmark.yaml + docs
 omnibenchmark_modules/
   guide_assignment_data        importer + Phase-0 difficulty table (method-independent)
   guide_assignment_pgmm        pgmm_em: variant mle | map_e2 (run_pgmm_em.py / run_variant_e2.py)
@@ -79,7 +79,7 @@ Full numbers in `CONSISTENCY_VALIDATION.md`.
 
 ## 4. Stability
 
-`ob validate plan` passes; `ob run --dry` generates **135 rules deterministically**
+`ob validate plan` passes; `ob run --dry` generates **151 rules deterministically**
 (identical at PYTHONHASHSEED 0/1/2 and across repeated runs). The DAG: 2 data ×
 8 methods = 16 assignment lineages, each scored by 3 metric stages (7 metric values),
 plus 4 cross-lineage collectors.
@@ -106,17 +106,14 @@ plus 4 cross-lineage collectors.
 
 ```bash
 cd /home/yunzliu/omnibenchmark_benchmarks/guide_assignment
-# smoke test (fast, host backend, parity-verified):
-conda run -n omnibenchmark ob run benchmark_cut1.yaml --dry --dirty
-cd out && conda run -n scp_analysis snakemake --cores 8
-
-# full plan (conda backend): validate + inspect the DAG
+# public plan (conda backend): validate + inspect the DAG
 conda run -n omnibenchmark ob validate plan benchmark.yaml
-conda run -n omnibenchmark ob run benchmark.yaml --dry --dirty        # 135 rules
+conda run -n omnibenchmark ob run benchmark.yaml --dry                  # 151 rules
 # real run builds the 4 conda envs, then: ob run benchmark.yaml --cores N
 ```
 
-Local-path modules require `--dirty`. Envs are exported from the pre-existing
+The plan uses public, commit-pinned module repositories; `--dirty` is not needed.
+Envs are exported from the pre-existing
 `scp_analysis` / `crispat` / `scprocess_rlibs` envs (the ones that produced the
 archive) for maximum parity.
 
